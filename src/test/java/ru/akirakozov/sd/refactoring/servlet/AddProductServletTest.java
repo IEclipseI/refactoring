@@ -30,10 +30,4 @@ public class AddProductServletTest extends ProductServletTest {
         Assert.assertEquals(products.get(0), List.of("iPhone 322", "666666"));
         Assert.assertEquals(products.get(1), List.of("house", "777"));
     }
-
-    private void addProduct(String name, String price) throws IOException {
-        when(request.getParameter("name")).thenReturn(name);
-        when(request.getParameter("price")).thenReturn(price);
-        new AddProductServlet().doGet(request, response);
-    }
 }

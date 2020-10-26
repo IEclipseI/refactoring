@@ -52,8 +52,11 @@ public class ProductServletTest {
     }
 
     protected List<List<String>> selectProducts(String sql) throws SQLException {
+        return select(sql, List.of("name", "price"));
+    }
+
+    protected List<List<String>> select(String sql, List<String> fields) throws SQLException {
         List<List<String>> result = new ArrayList<>();
-        List<String> fields = List.of("name", "price");
         try (Connection c = DriverManager.getConnection(DATABASE)) {
             Statement stmt = c.createStatement();
             ResultSet resultSet = stmt.executeQuery(sql);
@@ -67,5 +70,10 @@ public class ProductServletTest {
             stmt.close();
         }
         return result;
+    }
+    protected void addProduct(String name, String price) throws IOException {
+        when(request.getParameter("name")).thenReturn(name);
+        when(request.getParameter("price")).thenReturn(price);
+        new AddProductServlet().doGet(request, response);
     }
 }
