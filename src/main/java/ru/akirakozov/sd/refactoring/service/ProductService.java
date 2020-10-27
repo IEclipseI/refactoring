@@ -2,6 +2,8 @@ package ru.akirakozov.sd.refactoring.service;
 
 import ru.akirakozov.sd.refactoring.model.Product;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public interface ProductService {
@@ -12,4 +14,6 @@ public interface ProductService {
     long getProductsPriceSum();
     int getProductsAmount();
     void saveProduct(Product product);
+    void saveAll(Collection<Product> products);
+    void dropDatabase();
 }

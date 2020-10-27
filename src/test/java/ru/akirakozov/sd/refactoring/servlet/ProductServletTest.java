@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import ru.akirakozov.sd.refactoring.repository.ProductRepositoryImpl;
+import ru.akirakozov.sd.refactoring.service.ProductServiceImpl;
 import ru.akirakozov.sd.refactoring.sqlexecutor.SqlExecutor;
 import ru.akirakozov.sd.refactoring.sqlexecutor.SqlExecutorImpl;
 
@@ -18,9 +20,14 @@ import java.util.Map;
 import static org.mockito.Mockito.when;
 
 public class ProductServletTest {
-    protected static final String DATABASE = "jdbc:sqlite:test.db";
-    protected SqlExecutor sqlExecutor= new SqlExecutorImpl(DATABASE);
+    protected static final String database = System.getenv("testdb_jdbcUrl");
+//    protected static final String database = "jdbc:sqlite:test.db";
+    protected SqlExecutorImpl sqlExecutor = new SqlExecutorImpl(database);
+    protected ProductRepositoryImpl productRepository = new ProductRepositoryImpl(sqlExecutor);
+    protected ProductServiceImpl productService = new ProductServiceImpl(productRepository);
+
     protected StringWriter writer = new StringWriter();
+
     @Mock
     protected HttpServletResponse response;
     @Mock
@@ -34,19 +41,12 @@ public class ProductServletTest {
 
     @Before
     public void createTestDatabase() {
-        sqlExecutor.execute("CREATE TABLE IF NOT EXISTS PRODUCT" +
-                "(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
-                " NAME           TEXT    NOT NULL, " +
-                " PRICE          INT     NOT NULL)");
+        productService.createTableIfNotExists();
     }
 
     @After
     public void dropTestDatabase() {
-       sqlExecutor.execute("DROP TABLE IF EXISTS PRODUCT");
-    }
-
-    protected List<Map<String, String>> selectProducts(String sql) {
-        return sqlExecutor.select(sql, List.of("name", "price"));
+       productService.dropDatabase();
     }
 
     protected void addProduct(String name, String price) throws IOException {

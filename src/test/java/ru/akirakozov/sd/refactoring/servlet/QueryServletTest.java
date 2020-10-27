@@ -3,6 +3,7 @@ package ru.akirakozov.sd.refactoring.servlet;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.akirakozov.sd.refactoring.model.Product;
 
 import java.io.IOException;
 
@@ -12,16 +13,11 @@ public class QueryServletTest extends ProductServletTest {
 
     @Before
     public void fillDB() {
-        insertProduct("p1", "10");
-        insertProduct("p2", "20");
-        insertProduct("p3", "25");
-        insertProduct("p4", "30");
+        productService.saveProduct(new Product("p1", 10));
+        productService.saveProduct(new Product("p2", 20));
+        productService.saveProduct(new Product("p3", 25));
+        productService.saveProduct(new Product("p4", 30));
     }
-
-    private void insertProduct(String name, String price) {
-        sqlExecutor.execute("INSERT INTO PRODUCT (NAME, PRICE) VALUES ('" + name + "','" + price + "')");
-    }
-
 
     @Test
     public void maxTest() throws IOException {

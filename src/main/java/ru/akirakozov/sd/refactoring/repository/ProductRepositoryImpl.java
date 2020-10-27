@@ -16,7 +16,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<Product> getAllProducts() {
-        List<Map<String, String>> result = sqlExecutor.select("SELECT * FROM products", List.of("name", "price"));
+        List<Map<String, String>> result = sqlExecutor.select("SELECT * FROM product", List.of("name", "price"));
         return result.stream()
                 .map(m -> new Product(m.get("name"), Integer.parseInt(m.get("price"))))
                 .collect(Collectors.toList());
@@ -34,5 +34,10 @@ public class ProductRepositoryImpl implements ProductRepository {
                         "(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                         " NAME           TEXT    NOT NULL, " +
                         " PRICE          INT     NOT NULL)");
+    }
+
+    @Override
+    public void dropDatabase() {
+        sqlExecutor.execute("DROP TABLE IF EXISTS PRODUCT");
     }
 }

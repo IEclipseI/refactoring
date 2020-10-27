@@ -8,4 +8,5 @@ public interface ProductRepository {
     List<Product> getAllProducts();
     void save(Product product);
     void createTableIfNotExists();
+    void dropDatabase();
 }

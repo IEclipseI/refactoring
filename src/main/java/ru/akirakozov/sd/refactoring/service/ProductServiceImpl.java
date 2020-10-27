@@ -3,6 +3,7 @@ package ru.akirakozov.sd.refactoring.service;
 import ru.akirakozov.sd.refactoring.model.Product;
 import ru.akirakozov.sd.refactoring.repository.ProductRepository;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
@@ -55,5 +56,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void saveProduct(Product product) {
         repository.save(product);
+    }
+
+    @Override
+    public void saveAll(Collection<Product> products) {
+        for (Product product : products) {
+            saveProduct(product);
+        }
+    }
+
+    @Override
+    public void dropDatabase() {
+        repository.dropDatabase();
     }
 }
