@@ -10,11 +10,4 @@ public abstract class AbstractSDServlet extends HttpServlet {
     protected AbstractSDServlet(ProductService productService) {
         this.productService = productService;
     }
-
-    protected String surroundTags(String line, String body) {
-        return "<html><body>\n" +
-                line +
-                body +
-                "</body></html>\n";
-    }
 }
