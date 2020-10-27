@@ -3,7 +3,6 @@ package ru.akirakozov.sd.refactoring.service;
 import ru.akirakozov.sd.refactoring.model.Product;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public interface ProductService {

@@ -6,7 +6,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import ru.akirakozov.sd.refactoring.repository.ProductRepositoryImpl;
 import ru.akirakozov.sd.refactoring.service.ProductServiceImpl;
-import ru.akirakozov.sd.refactoring.sqlexecutor.SqlExecutor;
 import ru.akirakozov.sd.refactoring.sqlexecutor.SqlExecutorImpl;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.List;
-import java.util.Map;
 
 import static org.mockito.Mockito.when;
 

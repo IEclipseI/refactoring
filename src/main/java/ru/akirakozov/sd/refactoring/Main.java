@@ -3,17 +3,12 @@ package ru.akirakozov.sd.refactoring;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import ru.akirakozov.sd.refactoring.repository.ProductRepository;
 import ru.akirakozov.sd.refactoring.repository.ProductRepositoryImpl;
 import ru.akirakozov.sd.refactoring.service.ProductServiceImpl;
 import ru.akirakozov.sd.refactoring.servlet.AddProductServlet;
 import ru.akirakozov.sd.refactoring.servlet.GetProductsServlet;
 import ru.akirakozov.sd.refactoring.servlet.QueryServlet;
 import ru.akirakozov.sd.refactoring.sqlexecutor.SqlExecutorImpl;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 
 /**
  * @author akirakozov
