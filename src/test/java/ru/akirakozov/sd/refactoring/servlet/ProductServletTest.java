@@ -15,6 +15,7 @@ import java.io.StringWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.when;
 
@@ -46,26 +47,10 @@ public class ProductServletTest {
        sqlExecutor.execute("DROP TABLE IF EXISTS PRODUCT");
     }
 
-    protected List<List<String>> selectProducts(String sql) throws SQLException {
-        return select(sql, List.of("name", "price"));
+    protected List<Map<String, String>> selectProducts(String sql) {
+        return sqlExecutor.select(sql, List.of("name", "price"));
     }
 
-    protected List<List<String>> select(String sql, List<String> fields) throws SQLException {
-        List<List<String>> result = new ArrayList<>();
-        try (Connection c = DriverManager.getConnection(DATABASE)) {
-            Statement stmt = c.createStatement();
-            ResultSet resultSet = stmt.executeQuery(sql);
-            while (resultSet.next()) {
-                List<String> curProduct = new ArrayList<>();
-                for (String field : fields) {
-                    curProduct.add(resultSet.getString(field));
-                }
-                result.add(curProduct);
-            }
-            stmt.close();
-        }
-        return result;
-    }
     protected void addProduct(String name, String price) throws IOException {
         when(request.getParameter("name")).thenReturn(name);
         when(request.getParameter("price")).thenReturn(price);

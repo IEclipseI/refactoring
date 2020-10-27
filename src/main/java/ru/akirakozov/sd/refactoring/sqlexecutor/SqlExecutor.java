@@ -1,8 +1,9 @@
 package ru.akirakozov.sd.refactoring.sqlexecutor;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SqlExecutor {
     void execute(String sql);
-    void select(String sql, List<String> fields);
+    List<Map<String, String>> select(String sql, List<String> fields);
 }
