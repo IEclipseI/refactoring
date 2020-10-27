@@ -1,5 +1,6 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
+import ru.akirakozov.sd.refactoring.html.HtmlProcessor;
 import ru.akirakozov.sd.refactoring.model.Product;
 import ru.akirakozov.sd.refactoring.service.ProductService;
 
@@ -18,33 +19,36 @@ public class QueryServlet extends AbstractSDServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String command = request.getParameter("command");
-
+        HtmlProcessor responseHtml = new HtmlProcessor();
         switch (command) {
             case "max": {
                 Product product = productService.getProductWithBiggestPrice();
-                response.getWriter().print(surroundTags("<h1>Product with max price: </h1>\n",
-                        product.getName() + "\t" + product.getPrice() + "</br>" + "\n"));
+                responseHtml.headerH1("Product with max price: ")
+                        .line(product.getName() + "\t" + product.getPrice() + "</br>");
                 break;
             }
             case "min": {
                 Product product = productService.getProductWithLowesPrice();
-                response.getWriter().print(surroundTags("<h1>Product with min price: </h1>\n",
-                        product.getName() + "\t" + product.getPrice() + "</br>" + "\n"));
+                responseHtml.headerH1("Product with min price: ")
+                        .line(product.getName() + "\t" + product.getPrice() + "</br>");
                 break;
             }
             case "sum":
                 long productsPriceSum = productService.getProductsPriceSum();
-                response.getWriter().print(surroundTags("Summary price: \n", productsPriceSum + "\n"));
+                responseHtml.line("Summary price: ")
+                        .line(productsPriceSum + "");
                 break;
             case "count":
                 long number = productService.getProductsAmount();
-                response.getWriter().print(surroundTags("Number of products: \n", number + "\n"));
+                responseHtml.line("Number of products: ")
+                        .line(number + "");
                 break;
             default:
-                response.getWriter().println("Unknown command: " + command);
+                responseHtml.line("Unknown command: " + command)
+                    .withNoSurrounding();
                 break;
         }
-
+        response.getWriter().print(responseHtml.toHtml());
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
     }

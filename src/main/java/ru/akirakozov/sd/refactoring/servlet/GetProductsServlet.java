@@ -1,5 +1,6 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
+import ru.akirakozov.sd.refactoring.html.HtmlProcessor;
 import ru.akirakozov.sd.refactoring.model.Product;
 import ru.akirakozov.sd.refactoring.service.ProductService;
 
@@ -24,7 +25,7 @@ public class GetProductsServlet extends AbstractSDServlet {
         for (Product product : allProducts) {
             sb.append(product.getName()).append("\t").append(product.getPrice()).append("</br>\n");
         }
-        response.getWriter().print(surroundTags("", sb.toString()));
+        response.getWriter().print(new HtmlProcessor().text(sb.toString()).toHtml());
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
     }
