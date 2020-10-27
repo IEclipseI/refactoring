@@ -1,5 +1,8 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
+import ru.akirakozov.sd.refactoring.model.Product;
+import ru.akirakozov.sd.refactoring.service.ProductService;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,35 +11,25 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  * @author akirakozov
  */
-public class GetProductsServlet extends HttpServlet {
+public class GetProductsServlet extends AbstractSDServlet {
+
+    public GetProductsServlet(ProductService productService) {
+        super(productService);
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try {
-            try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-                Statement stmt = c.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM PRODUCT");
-                response.getWriter().println("<html><body>");
-
-                while (rs.next()) {
-                    String  name = rs.getString("name");
-                    int price  = rs.getInt("price");
-                    response.getWriter().println(name + "\t" + price + "</br>");
-                }
-                response.getWriter().println("</body></html>");
-
-                rs.close();
-                stmt.close();
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        List<Product> allProducts = productService.getAllProducts();
+        StringBuilder sb = new StringBuilder();
+        for (Product product : allProducts) {
+            sb.append(product.getName()).append("\t").append(product.getPrice()).append("</br>\n");
         }
-
+        response.getWriter().print(surroundTags("", sb.toString()));
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
     }

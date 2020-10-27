@@ -52,6 +52,6 @@ public class ProductServletTest {
     protected void addProduct(String name, String price) throws IOException {
         when(request.getParameter("name")).thenReturn(name);
         when(request.getParameter("price")).thenReturn(price);
-        new AddProductServlet().doGet(request, response);
+        new AddProductServlet(productService).doGet(request, response);
     }
 }

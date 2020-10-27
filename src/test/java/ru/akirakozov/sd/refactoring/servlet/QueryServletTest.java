@@ -19,10 +19,14 @@ public class QueryServletTest extends ProductServletTest {
         productService.saveProduct(new Product("p4", 30));
     }
 
+    private void doGet() throws IOException {
+        new QueryServlet(productService).doGet(request, response);
+    }
+
     @Test
     public void maxTest() throws IOException {
         when(request.getParameter("command")).thenReturn("max");
-        new QueryServlet().doGet(request, response);
+        doGet();
         String expected =
                 "<html><body>\n" +
                 "<h1>Product with max price: </h1>\n" +
@@ -34,7 +38,7 @@ public class QueryServletTest extends ProductServletTest {
     @Test
     public void minTest() throws IOException {
         when(request.getParameter("command")).thenReturn("min");
-        new QueryServlet().doGet(request, response);
+        doGet();
         String expected =
                 "<html><body>\n" +
                 "<h1>Product with min price: </h1>\n" +
@@ -46,7 +50,7 @@ public class QueryServletTest extends ProductServletTest {
     @Test
     public void sumTest() throws IOException {
         when(request.getParameter("command")).thenReturn("sum");
-        new QueryServlet().doGet(request, response);
+        doGet();
         String expected =
                 "<html><body>\n" +
                 "Summary price: \n" +
@@ -58,7 +62,7 @@ public class QueryServletTest extends ProductServletTest {
     @Test
     public void countTest() throws IOException {
         when(request.getParameter("command")).thenReturn("count");
-        new QueryServlet().doGet(request, response);
+        doGet();
         String expected =
                 "<html><body>\n" +
                 "Number of products: \n" +
@@ -70,14 +74,14 @@ public class QueryServletTest extends ProductServletTest {
     @Test
     public void empty() throws IOException {
         when(request.getParameter("command")).thenReturn("");
-        new QueryServlet().doGet(request, response);
+        doGet();
         Assert.assertEquals("Unknown command: \n", writer.toString());
     }
 
     @Test
     public void unknownCommand() throws IOException {
         when(request.getParameter("command")).thenReturn("kekw");
-        new QueryServlet().doGet(request, response);
+        doGet();
         Assert.assertEquals("Unknown command: kekw\n", writer.toString());
     }
 }

@@ -11,7 +11,7 @@ public class GetProductServletTest extends ProductServletTest {
 
     @Test
     public void empty() throws IOException {
-        new GetProductsServlet().doGet(request, response);
+        new GetProductsServlet(productService).doGet(request, response);
         Assert.assertEquals("<html><body>\n</body></html>\n", writer.toString());
     }
 
@@ -22,7 +22,7 @@ public class GetProductServletTest extends ProductServletTest {
                         new Product("phone", 1000),
                         new Product("mouse", 100),
                         new Product("keyboard", 150)));
-        new GetProductsServlet().doGet(request, response);
+        new GetProductsServlet(productService).doGet(request, response);
         Assert.assertEquals(
                 "<html><body>\nphone\t1000</br>\nmouse\t100</br>\nkeyboard\t150</br>\n</body></html>\n",
                 writer.toString());
