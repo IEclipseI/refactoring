@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
-
 public class AddProductServletTest extends ProductServletTest {
 
     @Test

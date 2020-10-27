@@ -12,15 +12,15 @@ import static org.mockito.Mockito.when;
 public class QueryServletTest extends ProductServletTest {
 
     @Before
-    public void fillDB() throws SQLException {
+    public void fillDB() {
         insertProduct("p1", "10");
         insertProduct("p2", "20");
         insertProduct("p3", "25");
         insertProduct("p4", "30");
     }
 
-    private void insertProduct(String name, String price) throws SQLException {
-        execSql("INSERT INTO PRODUCT (NAME, PRICE) VALUES ('" + name + "','" + price + "')");
+    private void insertProduct(String name, String price) {
+        sqlExecutor.execute("INSERT INTO PRODUCT (NAME, PRICE) VALUES ('" + name + "','" + price + "')");
     }
 
 
