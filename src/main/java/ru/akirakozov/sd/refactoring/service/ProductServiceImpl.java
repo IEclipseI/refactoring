@@ -1,40 +1,59 @@
 package ru.akirakozov.sd.refactoring.service;
 
 import ru.akirakozov.sd.refactoring.model.Product;
+import ru.akirakozov.sd.refactoring.repository.ProductRepository;
+
+import java.util.Comparator;
+import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
+    private final ProductRepository repository;
+
+    public ProductServiceImpl(ProductRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public void createTableIfNotExists() {
-
+        repository.createTableIfNotExists();
     }
 
     @Override
-    public void getAllProducts() {
-
+    public List<Product> getAllProducts() {
+        return repository.getAllProducts();
     }
 
     @Override
-    public void getProductWithBiggestPrice() {
-
+    public Product getProductWithBiggestPrice() {
+        return repository.getAllProducts()
+                .stream()
+                .max(Comparator.comparing(Product::getPrice))
+                .orElse(null);
     }
 
     @Override
-    public void getProductWithLowesPrice() {
-
+    public Product getProductWithLowesPrice() {
+        return repository.getAllProducts()
+                .stream()
+                .min(Comparator.comparing(Product::getPrice))
+                .orElse(null);
     }
 
     @Override
-    public void getProductsPriceSum() {
-
+    public long getProductsPriceSum() {
+        return repository.getAllProducts()
+                .stream()
+                .mapToLong(Product::getPrice)
+                .sum();
     }
 
     @Override
-    public void getProductsAmount() {
-
+    public int getProductsAmount() {
+        return repository.getAllProducts().size();
     }
 
     @Override
     public void saveProduct(Product product) {
-
+        repository.save(product);
     }
 }

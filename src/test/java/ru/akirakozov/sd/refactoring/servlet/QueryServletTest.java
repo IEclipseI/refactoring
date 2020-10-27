@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import static org.mockito.Mockito.when;
 
